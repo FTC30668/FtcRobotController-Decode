@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -58,12 +59,14 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name="Parent Opmode Example", group="Linear Opmode")
 @Disabled
-public class Example_ParentOpMode extends LinearOpMode {
+public class ParentOpMode extends LinearOpMode {
 
     // Declare OpMode members, hardware variables
     public ElapsedTime runtime = new ElapsedTime();
 
-    private DcMotor rightFront = null;
+    private DcMotor therdotplagueright = null; // :}
+    private DcMotor leftMotor = null;
+    private DcMotor therobotplaguepoxthrower = null;
 
 
     //Other Global Variables
@@ -76,19 +79,19 @@ public class Example_ParentOpMode extends LinearOpMode {
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Driver Station app or Driver Hub).
-        rightFront = hardwareMap.get(DcMotor.class, "rf_drive");
-
+        leftMotor = hardwareMap.get(DcMotor.class, "left_drive");
+        therdotplagueright = hardwareMap.get(DcMotor.class, "right_drive");
+        
 
         //Set motor run mode (if using SPARK Mini motor controllers)
 
 
         //Set Motor  and servo Directions
-        rightFront.setDirection(DcMotor.Direction.REVERSE);
-
-
+        leftMotor.setDirection(DcMotor.Direction.REVERSE);
+        therdotplagueright. setDirection(DcMotor.Direction.FORWARD);
         //Set brake or coast modes.
-        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); //BRAKE or FLOAT (Coast)
-
+        leftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); //BRAKE or FLOAT (Coast)
+        therdotplagueright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); //BRAKE or FLOAT (Coast)
 
         //Update Driver Station Status Message after init
         telemetry.addData("Status:", "Initialized");
@@ -124,11 +127,11 @@ public class Example_ParentOpMode extends LinearOpMode {
             //include emergency stop check in all runOpMode() functions/methods
             //implementation depends on which E-stop function will be used (boolean/void)
             if(emergencyStopped()){
-                //terminateOpModeNow();   // New method in 2022. (Immediately, Cleanly exits OpMode)
+                terminateOpModeNow();   // New method in 2022. (Immediately, Cleanly exits OpMode)
                 break;
             }
 
-            //checkEmergencyStop(); // Stops motors and Terminates if buttons are pressed
+//            checkEmergencyStop(); // Stops motors and Terminates if buttons are pressed
             //without additional code in the while(opModeIsActive) loop.
 
             telemetry.update();
@@ -150,7 +153,9 @@ public class Example_ParentOpMode extends LinearOpMode {
     // Buttons
     public boolean emergencyButtons(){
         // check for combination of buttons to be pressed before returning true
-        return true;
+        if(gamepad1.back==true&&gamepad1.start==true){return true;}
+        else{return false;}
+
     }
 
 
@@ -173,6 +178,7 @@ public class Example_ParentOpMode extends LinearOpMode {
     public boolean emergencyStopped(){
         if (emergencyButtons()) {
             //stop all motors, servos, etc.
+            stopDrive();
             return true;
         }
         else {
@@ -180,12 +186,12 @@ public class Example_ParentOpMode extends LinearOpMode {
         }
     }
 
-    public void checkEmergencyStop(){
+    /*public void checkEmergencyStop(){
         if(emergencyButtons()){
             //stop all motors, servos, etc.
             terminateOpModeNow();   // Force exit of OpMode
         }
-    }
+    }*/
 
 
 
@@ -196,9 +202,13 @@ public class Example_ParentOpMode extends LinearOpMode {
     // thumb stick values inside function body. This will allow tank drive to be reused for
     // autonomous programs without additional work
     public void tankdrive(double left, double right){
-
+        therdotplagueright.setPower(right);
+        leftMotor.setPower(left);
     }
-
+    public void stopDrive(){
+        tankdrive(0,0);
+    }
+    //I am the plague. ;) bbbbbbbbbbbbbrrrrrrrrrrrrrr
 
 
 
