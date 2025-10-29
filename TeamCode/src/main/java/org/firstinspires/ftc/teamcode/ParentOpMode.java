@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorImpl;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -82,7 +83,7 @@ public class ParentOpMode extends LinearOpMode {
         // step (using the FTC Driver Station app or Driver Hub).
         leftMotor = hardwareMap.get(DcMotor.class, "left_drive");
         therdotplagueright = hardwareMap.get(DcMotor.class, "right_drive");
-        therobotplaguepoxthrower= hardwareMap.get(DcMotor.class,"therobotplague_tsoor")
+        therobotplaguepoxthrower= hardwareMap.get(DcMotor.class,"therobotplague_tsoor");
 
         //Set motor run mode (if using SPARK Mini motor controllers)
         //Set motor run mode (if using SPARK Mini motor controllers)
@@ -90,7 +91,7 @@ public class ParentOpMode extends LinearOpMode {
         //Set Motor  and servo Directions
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
         therdotplagueright. setDirection(DcMotor.Direction.FORWARD);
-
+        therobotplaguepoxthrower.setDirection(DcMotorSimple.Direction.FORWARD);
 
         //Set brake or coast modes.
         leftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); //BRAKE or FLOAT (Coast)
@@ -156,9 +157,16 @@ public class ParentOpMode extends LinearOpMode {
     // Buttons
     public boolean emergencyButtons(){
         // check for combination of buttons to be pressed before returning true
-        if(gamepad1.back==true&&gamepad1.start==true){return true;}
-        else{return false;}
+        if(gamepad1.back==true&&gamepad1.start==true){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 
+    public boolean poxThrowerButton(){
+        return gamepad1.y;
     }
 
 
@@ -213,6 +221,17 @@ public class ParentOpMode extends LinearOpMode {
     }
     //I am the plague. ;) bbbbbbbbbbbbbrrrrrrrrrrrrrr
 
+
+    /*****************************/
+    //Shooter/Pox-Thrower Functions
+
+    public void yosamysam(){
+        double flah=1;
+
+        if(poxThrowerButton()){
+            therobotplaguepoxthrower.setPower();
+        }
+    }
 
 
     /*****************************/
