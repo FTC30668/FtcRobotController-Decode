@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorImpl;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -81,14 +82,16 @@ public class ParentOpMode extends LinearOpMode {
         // step (using the FTC Driver Station app or Driver Hub).
         leftMotor = hardwareMap.get(DcMotor.class, "left_drive");
         therdotplagueright = hardwareMap.get(DcMotor.class, "right_drive");
-        
+        therobotplaguepoxthrower= hardwareMap.get(DcMotor.class,"therobotplague_tsoor")
 
         //Set motor run mode (if using SPARK Mini motor controllers)
-
+        //Set motor run mode (if using SPARK Mini motor controllers)
 
         //Set Motor  and servo Directions
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
         therdotplagueright. setDirection(DcMotor.Direction.FORWARD);
+
+
         //Set brake or coast modes.
         leftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); //BRAKE or FLOAT (Coast)
         therdotplagueright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); //BRAKE or FLOAT (Coast)
