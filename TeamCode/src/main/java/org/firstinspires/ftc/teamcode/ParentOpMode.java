@@ -33,8 +33,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorImpl;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -66,36 +64,33 @@ public class ParentOpMode extends LinearOpMode {
     // Declare OpMode members, hardware variables
     public ElapsedTime runtime = new ElapsedTime();
 
-    private DcMotor therdotplagueright = null; // :}
-    private DcMotor leftMotor = null;
-    private DcMotor therobotplaguepoxthrower = null;
+    private DcMotor theRobotPlagueRight = null; // :}
+    private DcMotor theRobotPlagueLeft = null;
+    private DcMotor robotPlaguePoxThrower = null;
 
 
     //Other Global Variables
     //put global variables here...
     //
-    //
-    //
 
+
+    //init
     public void initialize(){
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Driver Station app or Driver Hub).
-        leftMotor = hardwareMap.get(DcMotor.class, "left_drive");
-        therdotplagueright = hardwareMap.get(DcMotor.class, "right_drive");
-        therobotplaguepoxthrower= hardwareMap.get(DcMotor.class,"therobotplague_tsoor");
-
-        //Set motor run mode (if using SPARK Mini motor controllers)
-        //Set motor run mode (if using SPARK Mini motor controllers)
+        theRobotPlagueLeft = hardwareMap.get(DcMotor.class, "left_drive");
+        theRobotPlagueRight = hardwareMap.get(DcMotor.class, "right_drive");
+        robotPlaguePoxThrower = hardwareMap.get(DcMotor.class,"pox_thrower");
 
         //Set Motor  and servo Directions
-        leftMotor.setDirection(DcMotor.Direction.REVERSE);
-        therdotplagueright. setDirection(DcMotor.Direction.FORWARD);
-        therobotplaguepoxthrower.setDirection(DcMotorSimple.Direction.FORWARD);
+        theRobotPlagueLeft.setDirection(DcMotor.Direction.REVERSE);
+        theRobotPlagueRight. setDirection(DcMotor.Direction.FORWARD);
+        robotPlaguePoxThrower.setDirection(DcMotorSimple.Direction.FORWARD);
 
         //Set brake or coast modes.
-        leftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); //BRAKE or FLOAT (Coast)
-        therdotplagueright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); //BRAKE or FLOAT (Coast)
+        theRobotPlagueLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); //BRAKE or FLOAT (Coast)
+        theRobotPlagueRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); //BRAKE or FLOAT (Coast)
 
         //Update Driver Station Status Message after init
         telemetry.addData("Status:", "Initialized");
@@ -213,8 +208,8 @@ public class ParentOpMode extends LinearOpMode {
     // thumb stick values inside function body. This will allow tank drive to be reused for
     // autonomous programs without additional work
     public void tankdrive(double left, double right){
-        therdotplagueright.setPower(right);
-        leftMotor.setPower(left);
+        theRobotPlagueRight.setPower(right);
+        theRobotPlagueLeft.setPower(left);
     }
     public void stopDrive(){
         tankdrive(0,0);
@@ -226,10 +221,10 @@ public class ParentOpMode extends LinearOpMode {
     //Shooter/Pox-Thrower Functions
 
     public void yosamysam(){
-        double flah=1;
+        double flash=0.75;  // Launcher/Pox-thrower Speed
 
         if(poxThrowerButton()){
-            therobotplaguepoxthrower.setPower();
+            robotPlaguePoxThrower.setPower(flash);
         }
     }
 
