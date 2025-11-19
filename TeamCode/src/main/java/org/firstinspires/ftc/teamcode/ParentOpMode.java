@@ -32,8 +32,10 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -67,6 +69,8 @@ public class ParentOpMode extends LinearOpMode {
     private DcMotor theRobotPlagueRight = null; // :}
     private DcMotor theRobotPlagueLeft = null;
     private DcMotor robotPlaguePoxThrower = null;
+    private CRServo servoLeft = null;
+    private CRServo servoRight = null;
 
 
     //Other Global Variables
@@ -82,11 +86,15 @@ public class ParentOpMode extends LinearOpMode {
         theRobotPlagueLeft = hardwareMap.get(DcMotor.class, "left_drive");
         theRobotPlagueRight = hardwareMap.get(DcMotor.class, "right_drive");
         robotPlaguePoxThrower = hardwareMap.get(DcMotor.class,"pox_thrower");
+        servoLeft = hardwareMap.get(CRServo.class,"servo_left");
+        servoRight = hardwareMap.get(CRServo.class,"servo_right");
 
         //Set Motor  and servo Directions
-        theRobotPlagueLeft.setDirection(DcMotor.Direction.REVERSE);
-        theRobotPlagueRight. setDirection(DcMotor.Direction.FORWARD);
-        robotPlaguePoxThrower.setDirection(DcMotorSimple.Direction.FORWARD);
+        theRobotPlagueLeft.setDirection(DcMotor.Direction.FORWARD);
+        theRobotPlagueRight. setDirection(DcMotor.Direction.REVERSE);
+        robotPlaguePoxThrower.setDirection(DcMotorSimple.Direction.REVERSE);
+        servoLeft.setDirection(CRServo.Direction.FORWARD);
+        servoRight.setDirection(CRServo.Direction.REVERSE);
 
         //Set brake or coast modes.
         theRobotPlagueLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); //BRAKE or FLOAT (Coast)
@@ -147,6 +155,12 @@ public class ParentOpMode extends LinearOpMode {
         return gamepad1.left_stick_x;
     }
     public double left_sticky_y() { return -gamepad1.left_stick_y;}
+
+
+    public double right_sticky_x(){
+        return gamepad1.right_stick_x;
+    }
+    public double right_sticky_y() { return -gamepad1.right_stick_y;}
 
 
     // Buttons
@@ -222,9 +236,15 @@ public class ParentOpMode extends LinearOpMode {
 
     public void yosamysam(){
         double flash=0.75;  // Launcher/Pox-thrower Speed
-
+        double sideThrowSpeed = 0.75;
         if(poxThrowerButton()){
             robotPlaguePoxThrower.setPower(flash);
+            servoLeft.setPower(sideThrowSpeed);
+            servoRight.setPower(sideThrowSpeed);
+        }else{robotPlaguePoxThrower.setPower(0);
+            servoLeft.setPower(0);
+            servoRight.setPower(0);
+
         }
     }
 
