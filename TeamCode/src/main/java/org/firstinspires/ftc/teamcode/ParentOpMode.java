@@ -93,8 +93,8 @@ public class ParentOpMode extends LinearOpMode {
         theRobotPlagueLeft.setDirection(DcMotor.Direction.FORWARD);
         theRobotPlagueRight. setDirection(DcMotor.Direction.REVERSE);
         robotPlaguePoxThrower.setDirection(DcMotorSimple.Direction.REVERSE);
-        servoLeft.setDirection(CRServo.Direction.FORWARD);
-        servoRight.setDirection(CRServo.Direction.REVERSE);
+        servoLeft.setDirection(CRServo.Direction.REVERSE);
+        servoRight.setDirection(CRServo.Direction.FORWARD);
 
         //Set brake or coast modes.
         theRobotPlagueLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); //BRAKE or FLOAT (Coast)
@@ -178,6 +178,9 @@ public class ParentOpMode extends LinearOpMode {
         return gamepad1.y;
     }
 
+    public boolean poxthowertrigger(){
+        return gamepad1.right_trigger >.5;
+    }
 
     public boolean triggerButton(){
         if((gamepad1.right_trigger>.25)||(gamepad2.right_trigger>.25)){
@@ -239,13 +242,21 @@ public class ParentOpMode extends LinearOpMode {
         double sideThrowSpeed = 0.75;
         if(poxThrowerButton()){
             robotPlaguePoxThrower.setPower(flash);
-            servoLeft.setPower(sideThrowSpeed);
-            servoRight.setPower(sideThrowSpeed);
-        }else{robotPlaguePoxThrower.setPower(0);
-            servoLeft.setPower(0);
-            servoRight.setPower(0);
+
+        }else{
+            robotPlaguePoxThrower.setPower(0);
+
 
         }
+        if (poxthowertrigger()){
+            servoLeft.setPower(sideThrowSpeed);
+            servoRight.setPower(sideThrowSpeed);
+        }
+        else{
+            servoLeft.setPower(0);
+            servoRight.setPower(0);
+        }
+
     }
 
 
