@@ -260,6 +260,10 @@ public class ParentOpMode extends LinearOpMode {
     }
 
 
+
+
+
+
     /*****************************/
     //More Methods (Functions)
 
@@ -267,6 +271,29 @@ public class ParentOpMode extends LinearOpMode {
 
     /*****************************/
     //Autonomous Functions
+    public void autonomousPlague(float time,double endL,double laysR ){
+    tankdrive(endL, laysR);
+    if(!opModeIsActive()||emergencyStopped()){return;}
+    sleep((long)(time*1000));
+    stopDrive();
+    }
+    public void autonomousShooting(double speed, float delay){
+        for(int i=0; i<3; i++) {
+            robotPlaguePoxThrower.setPower(speed);
+            sleep((long) (delay * 1000));
+            servoLeft.setPower(speed);
+            servoRight.setPower(speed);
+            sleep((long) (delay * 1000));
+            if(!opModeIsActive()||emergencyStopped()){break;}
+        }
+    }
+    //y to charge
+    //right trigger to shoot
+
+
+
+
+
 
     /*****************************/
     //Encoder Functions
