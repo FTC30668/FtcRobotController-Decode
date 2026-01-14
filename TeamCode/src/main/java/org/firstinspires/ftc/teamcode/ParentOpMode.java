@@ -76,6 +76,7 @@ public class ParentOpMode extends LinearOpMode {
     //Other Global Variables
     //put global variables here...
     //
+    double encoderpulsesperrev=537.7;
 
 
     //init
@@ -272,11 +273,36 @@ public class ParentOpMode extends LinearOpMode {
     /*****************************/
     //Autonomous Functions
     public void autonomousPlague(float time,double endL,double laysR ){
-    tankdrive(endL, laysR);
-    if(!opModeIsActive()||emergencyStopped()){return;}
-    sleep((long)(time*1000));
-    stopDrive();
+        tankdrive(endL, laysR);
+        if(!opModeIsActive()||emergencyStopped()){return;}
+        sleep((long)(time*1000));
+        stopDrive();
     }
+    public void drivedistance(double inches){
+        theRobotPlagueLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        theRobotPlagueRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        int terat = (int) (0.0842*encoderpulsesperrev*inches);
+        theRobotPlagueLeft.setTargetPosition(terat);
+        theRobotPlagueRight.setTargetPosition(terat);
+        theRobotPlagueLeft.setMode((DcMotor.RunMode.RUN_TO_POSITION));
+        theRobotPlagueRight.setMode((DcMotor.RunMode.RUN_TO_POSITION));
+        theRobotPlagueLeft.setPower(0.7);
+        theRobotPlagueRight.setPower(0.7);
+        while((theRobotPlagueLeft.isBusy())||(theRobotPlagueRight.isBusy())){
+            telemetry.addData("target", terat);
+            telemetry.addData(("left"), theRobotPlagueLeft.getCurrentPosition());
+            telemetry.addData(("right"), theRobotPlagueRight.getCurrentPosition());
+            telemetry.update();
+        }
+
+
+
+
+    }
+
+
+
+
     public void autonomousShooting(double speed, float delay){
         for(int i=0; i<3; i++) {
             robotPlaguePoxThrower.setPower(speed);
