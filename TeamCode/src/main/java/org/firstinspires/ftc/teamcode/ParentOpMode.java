@@ -69,6 +69,7 @@ public class ParentOpMode extends LinearOpMode {
     private DcMotor theRobotPlagueRight = null; // :}
     private DcMotor theRobotPlagueLeft = null;
     private DcMotor robotPlaguePoxThrower = null;
+    private DcMotor robotPlagueIntake = null;
     private CRServo servoLeft = null;
     private CRServo servoRight = null;
 
@@ -181,6 +182,10 @@ public class ParentOpMode extends LinearOpMode {
 
     public boolean poxthowertrigger(){
         return gamepad1.right_trigger >.5;
+    }
+
+    public boolean plagueIntakeButton(){
+        return gamepad1.left_bumper;
     }
 
     public boolean triggerButton(){
