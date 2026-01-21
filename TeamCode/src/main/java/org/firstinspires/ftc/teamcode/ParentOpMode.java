@@ -78,7 +78,7 @@ public class ParentOpMode extends LinearOpMode {
     //put global variables here...
     //
     double encoderpulsesperrev=537.7;
-
+    boolean poxOn = false;
 
     //init
     public void initialize(){
@@ -90,6 +90,7 @@ public class ParentOpMode extends LinearOpMode {
         robotPlaguePoxThrower = hardwareMap.get(DcMotor.class,"pox_thrower");
         servoLeft = hardwareMap.get(CRServo.class,"servo_left");
         servoRight = hardwareMap.get(CRServo.class,"servo_right");
+        robotPlagueIntake = hardwareMap.get(DcMotor.class, "robot_intake");
 
         //Set Motor  and servo Directions
         theRobotPlagueLeft.setDirection(DcMotor.Direction.FORWARD);
@@ -97,6 +98,7 @@ public class ParentOpMode extends LinearOpMode {
         robotPlaguePoxThrower.setDirection(DcMotorSimple.Direction.REVERSE);
         servoLeft.setDirection(CRServo.Direction.REVERSE);
         servoRight.setDirection(CRServo.Direction.FORWARD);
+        robotPlagueIntake.setDirection(DcMotorSimple.Direction.REVERSE);
 
         //Set brake or coast modes.
         theRobotPlagueLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); //BRAKE or FLOAT (Coast)
@@ -177,7 +179,7 @@ public class ParentOpMode extends LinearOpMode {
     }
 
     public boolean poxThrowerButton(){
-        return gamepad1.y;
+        return gamepad1.yWasPressed();
     }
 
     public boolean poxthowertrigger(){
@@ -246,11 +248,12 @@ public class ParentOpMode extends LinearOpMode {
     public void yosamysam(){
         double flash=0.75;  // Launcher/Pox-thrower Speed
         double sideThrowSpeed = 0.75;
-        if(poxThrowerButton()){
-            robotPlaguePoxThrower.setPower(flash);
+        if(poxThrowerButton()){poxOn = !poxOn;}
+        if(!poxOn){
+            robotPlaguePoxThrower.setPower(0);
 
         }else{
-            robotPlaguePoxThrower.setPower(0);
+            robotPlaguePoxThrower.setPower(flash);
 
 
         }
@@ -273,7 +276,10 @@ public class ParentOpMode extends LinearOpMode {
     /*****************************/
     //More Methods (Functions)
 
-
+    public void chargeIntake(float speed){
+        if(plagueIntakeButton()){
+        robotPlagueIntake.setPower(speed);}else{robotPlagueIntake.setPower(0);}
+    }
 
     /*****************************/
     //Autonomous Functions
@@ -295,6 +301,31 @@ public class ParentOpMode extends LinearOpMode {
         theRobotPlagueRight.setPower(0.7);
         while((theRobotPlagueLeft.isBusy())||(theRobotPlagueRight.isBusy())){
             telemetry.addData("target", terat);
+            telemetry.addData(("left"), theRobotPlagueLeft.getCurrentPosition());
+            telemetry.addData(("right"), theRobotPlagueRight.getCurrentPosition());
+            telemetry.update();
+        }
+
+
+
+
+    }
+
+    public void turn(double degrees, String leftright){
+        theRobotPlagueLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        theRobotPlagueRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        int distance = (int) (0.0123*encoderpulsesperrev*degrees);
+        if(leftright=="left"){
+        theRobotPlagueLeft.setTargetPosition(distance*-1);
+        theRobotPlagueRight.setTargetPosition(distance);}
+        else{theRobotPlagueLeft.setTargetPosition(distance);
+            theRobotPlagueRight.setTargetPosition(distance*-1);}
+        theRobotPlagueLeft.setMode((DcMotor.RunMode.RUN_TO_POSITION));
+        theRobotPlagueRight.setMode((DcMotor.RunMode.RUN_TO_POSITION));
+        theRobotPlagueLeft.setPower(0.7);
+        theRobotPlagueRight.setPower(0.7);
+        while((theRobotPlagueLeft.isBusy())||(theRobotPlagueRight.isBusy())){
+            telemetry.addData("target", distance);
             telemetry.addData(("left"), theRobotPlagueLeft.getCurrentPosition());
             telemetry.addData(("right"), theRobotPlagueRight.getCurrentPosition());
             telemetry.update();

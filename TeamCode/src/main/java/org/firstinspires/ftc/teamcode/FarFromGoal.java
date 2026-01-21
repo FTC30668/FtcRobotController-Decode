@@ -30,7 +30,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 /**
  * Original FTC opmode header block
@@ -53,9 +52,9 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
  * override the ParentOpMode runOpMode() method.
  **/
 
-@Autonomous(name="closeToGoal", group="Linear Opmode", preselectTeleOp = "tankdriveopmode")
+@Autonomous(name="FarFromGoal", group="Linear Opmode", preselectTeleOp = "tankdriveopmode")
 //@Disabled
-public class closeToGoal extends ParentOpMode {
+public class FarFromGoal extends ParentOpMode {
     /*
      * runOpMode() will be overridden in child OpMode.
      * Basic structure should remain intact (init, wait for start, while(opModeIsActive),
@@ -77,7 +76,7 @@ public class closeToGoal extends ParentOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-
+            drivedistance(126);
             autonomousShooting(0.75,6);
 
 

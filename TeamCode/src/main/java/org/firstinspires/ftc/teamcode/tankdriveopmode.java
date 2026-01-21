@@ -84,6 +84,7 @@ public class tankdriveopmode extends ParentOpMode {
 
             tankdrive(left_sticky_y(),right_sticky_y());
             yosamysam();
+            chargeIntake(1.0F);
 
 
 
