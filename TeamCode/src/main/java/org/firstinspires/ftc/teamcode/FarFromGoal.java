@@ -77,7 +77,7 @@ public class FarFromGoal extends ParentOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             drivedistance(126);
-            autonomousShooting(0.75,6);
+            autonomousShooting(0.6,4);
 
 
 

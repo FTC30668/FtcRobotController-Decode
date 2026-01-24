@@ -98,7 +98,7 @@ public class ParentOpMode extends LinearOpMode {
         robotPlaguePoxThrower.setDirection(DcMotorSimple.Direction.REVERSE);
         servoLeft.setDirection(CRServo.Direction.REVERSE);
         servoRight.setDirection(CRServo.Direction.FORWARD);
-        robotPlagueIntake.setDirection(DcMotorSimple.Direction.REVERSE);
+        robotPlagueIntake.setDirection(DcMotorSimple.Direction.FORWARD);
 
         //Set brake or coast modes.
         theRobotPlagueLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); //BRAKE or FLOAT (Coast)
@@ -247,7 +247,7 @@ public class ParentOpMode extends LinearOpMode {
 
     public void yosamysam(){
         double flash=0.75;  // Launcher/Pox-thrower Speed
-        double sideThrowSpeed = 0.75;
+        double sideThrowSpeed = 0.5;
         if(poxThrowerButton()){poxOn = !poxOn;}
         if(!poxOn){
             robotPlaguePoxThrower.setPower(0);

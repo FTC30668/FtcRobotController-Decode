@@ -78,7 +78,7 @@ public class closeToGoal extends ParentOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            autonomousShooting(0.75,6);
+            autonomousShooting(0.6,4);
 
 
 
