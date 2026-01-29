@@ -189,6 +189,10 @@ public class ParentOpMode extends LinearOpMode {
     public boolean plagueIntakeButton(){
         return gamepad1.left_bumper;
     }
+    public boolean plagueOuttakeButton(){
+        return gamepad1.left_trigger_pressed;
+    }
+
 
     public boolean triggerButton(){
         if((gamepad1.right_trigger>.25)||(gamepad2.right_trigger>.25)){
@@ -278,7 +282,7 @@ public class ParentOpMode extends LinearOpMode {
 
     public void chargeIntake(float speed){
         if(plagueIntakeButton()){
-        robotPlagueIntake.setPower(speed);}else{robotPlagueIntake.setPower(0);}
+        robotPlagueIntake.setPower(speed);}else if(plagueOuttakeButton()){robotPlagueIntake.setPower(speed*-1);}else{robotPlagueIntake.setPower(0);}
     }
 
     /*****************************/
@@ -290,16 +294,17 @@ public class ParentOpMode extends LinearOpMode {
         stopDrive();
     }
     public void drivedistance(double inches){
+        double currentTime = runtime.seconds();
         theRobotPlagueLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         theRobotPlagueRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        int terat = (int) (0.0842*encoderpulsesperrev*inches);
+        int terat = (int) (-1*0.0842*encoderpulsesperrev*inches);
         theRobotPlagueLeft.setTargetPosition(terat);
         theRobotPlagueRight.setTargetPosition(terat);
         theRobotPlagueLeft.setMode((DcMotor.RunMode.RUN_TO_POSITION));
         theRobotPlagueRight.setMode((DcMotor.RunMode.RUN_TO_POSITION));
         theRobotPlagueLeft.setPower(0.7);
         theRobotPlagueRight.setPower(0.7);
-        while((theRobotPlagueLeft.isBusy())||(theRobotPlagueRight.isBusy())){
+        while((theRobotPlagueLeft.isBusy())||(theRobotPlagueRight.isBusy())||runtime.seconds()>10+currentTime){
             telemetry.addData("target", terat);
             telemetry.addData(("left"), theRobotPlagueLeft.getCurrentPosition());
             telemetry.addData(("right"), theRobotPlagueRight.getCurrentPosition());
